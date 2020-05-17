@@ -1,0 +1,4 @@
+Add auto generated phrase passwords.
+Factor out the instructions so that you can change language.
+Factor out the hash and encryption so you can easily change them.
+
