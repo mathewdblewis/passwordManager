@@ -2,7 +2,7 @@ from subprocess import check_output as call
 import urllib.request
 
 # url of passwords.py script on github
-# url = "https://github.com/mathewdblewis/Y4S2Lectures/blob/master/CSC421/lec001.txt"
+url = 'https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/passwords.py'
 
 try:
 	path = call('echo $PATH',shell=True).decode().split(':')[0] + '/passwords'
