@@ -5,15 +5,19 @@ if version[0]!='3':
 	print("python 2 is deprecated, please use python 3")
 	exit()
 
-import hashlib; import json; from getpass import getpass
-from os import system, remove; from pyperclip import copy
+import json; from getpass import getpass
+from os import system, remove, urandom
 from os.path import expanduser,realpath
-from cryptography.fernet import Fernet
 from random import randint as rand
+from subprocess import run; import base64
+from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 fileName = expanduser('~')+'/.passwordmanager.enc'
-saltLen = 30
+saltLen = 16
 
 
 # utilities
@@ -40,10 +44,9 @@ def Print(s):
 	print('*'*len(s)+'****\n'+'* '+s+' *\n'+'*'*len(s)+'****\n')
 
 
-def hashfunc(s):
-	hashGen = hashlib.sha512()
-	hashGen.update(s.encode('utf-8'))
-	return hashGen.hexdigest()
+def copy(data):
+	pass
+	run("pbcopy", universal_newlines=True, input=data)
 
 
 def randstr(l,s):
@@ -59,11 +62,12 @@ def randstr(l,s):
 
 
 def save(data,final=False):
-	if final: start = ''
-	else: start = ' '
-	data['salt'] = randstr(saltLen,'snl')
-	cipher = Fernet(hashfunc(data['password']+data['salt'])[:43]+'=')
-	towrite = (start+data['salt']).encode('utf-8')+cipher.encrypt(json.dumps(data).encode('utf-8'))
+	if final: start = 'c'		# file starts with c because the file is "closed"
+	else:     start = 'o'		# file starts with o because the file is "open"
+	salt    = urandom(saltLen)
+	kdf     = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=100000,backend=default_backend())
+	cipher  = Fernet(base64.urlsafe_b64encode(kdf.derive(data['password'].encode('utf-8'))))
+	towrite = start.encode('utf-8')+salt+cipher.encrypt(json.dumps(data).encode('utf-8'))
 	open(fileName,'wb').write(towrite)
 
 
@@ -76,29 +80,30 @@ def exitState(empty):
 
 
 def load(empty):
-	file,plainText,salt,data = "","","",{}
+	file,plainText,data = "","",{}
 	try:
 		file = open(fileName,'rb').read()
-		if file[0] == 32:
+		if file[0] == 'o'.encode('utf-8'):
 			Print("WARNING")
 			print("Your password manager either apears to already be open")
 			print("or you are recovering your previous session after improperly quiting")
 			x = input("Press 'c' to continue or anything else to quit: ")
 			if 'c' != x: return ('exitState',)
 			file = file[1:]
-		salt,file = file[:saltLen].decode(),file[saltLen:]
+		salt,file = file[1:saltLen+1],file[saltLen+1:]
 	except: return ('setup',)	# create new password manager
 	Print("PASSWORD MANAGER")
 	while True:
 		password = getpass("\nEnter your master password here: ")
-		cipher = Fernet(hashfunc(password+salt)[:43]+'=')
+		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=100000,backend=default_backend())
+		cipher = Fernet(base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))))
 		try:
 			plainText = cipher.decrypt(file)
 			break
 		except:
 			print('\nWrong password, enter "x" to exit,')
 			print('"d" to delete the password file and create new password manager,')
-			x = getpass('or anything else to try again: ')
+			x = input('or anything else to try again: ')
 			if x == 'x': exit()
 			elif x == 'd':
 				print("Are you sure you want to delete the password file? This cannot be undone.")
@@ -119,7 +124,7 @@ def setup(empty):
 		password = getpass('To start, first enter your master password: ')
 		if password == getpass('Reenter your master password: '): break
 		print("Your passwords don't match, try again")
-	data = {'password':password,'salt':randstr(saltLen,'snl'),'entries':{}}
+	data = {'password':password,'entries':{}}
 	save(data)
 	print('You will now be taken to the main page, from there enter h for help')
 	input('Enter anything to continue: ')
