@@ -6,15 +6,13 @@ url = 'https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/pa
 
 try:
 	path = call('echo $PATH',shell=True).decode().split(':')[0] + '/passwords'
-	file = str(urllib.request.urlopen(url).read())
-	py = call('which python3',shell=True)
-	'#!'+py+'\n'+'\n'.join(file.split('\n')[1:])
-	open(path,'w').write()
-	call('chmod 100 ' + path, shell=True)
-except:
+	file = urllib.request.urlopen(url).read().decode()
+	file = '\n'.join(file.split('\n')[1:])
+	py = call('which python3',shell=True).decode()
+	file = '#!'+py+'\n'+file
+	open(path,'w').write(file)
+	call('chmod 700 ' + path, shell=True)
+except Exception as e:
 	print("The installation failed")
 	exit(1)
-
-
-
 
