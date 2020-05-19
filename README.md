@@ -12,10 +12,10 @@ Installation
 --------------------
 To install passwords, paste the following in your console:
 
-    curl -s https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/install.py > install.py
-    python3 install.py
-    rm install.py
+    curl -s https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/passwords.py > passwords.py
+    python3 passwords.py -install
+    rm passwords.py
     
-This installation script will prompt you for a location in your path to store
+During installation you will be prompted for a location in your path to store
 the passwords program. 
 
