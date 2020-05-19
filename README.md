@@ -8,7 +8,7 @@ All data is encrypted using the library cryptograph.fernet and is stored
 in the users home directory in the hidden file `.passwordmanager.enc`.
 
 
-CLI Password Manager
+Installation
 --------------------
 To install passwords, run the following:
 
