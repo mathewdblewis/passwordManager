@@ -110,7 +110,10 @@ def load(empty):
 	
 	while True:
 		print("\nEnter your master password here.")
-		password = getpass("You can also press enter to exit or d to delete the password file and create a new password manager")
+		print("You can also press enter to exit")
+		print("or d to delete the password file and create a new password manager.")
+		password = getpass(": ")
+
 		if password == '':
 			x = input("press enter again to exit, or press d to delete the password file.")
 			if x=='d':
