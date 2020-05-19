@@ -18,12 +18,15 @@ from os import system, remove, urandom
 from os.path import expanduser,realpath
 from random import randint as rand
 from subprocess import run; import base64
-from cryptography.fernet import Fernet
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-try: import pyperclip
-except: pass
+
+if len(sys.argv)==2 and sys.argv[1]=='-install': pass
+else:
+	from cryptography.fernet import Fernet
+	from cryptography.hazmat.backends import default_backend
+	from cryptography.hazmat.primitives import hashes
+	from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+	try: import pyperclip
+	except: pass
 
 fileName = expanduser('~')+'/.passwordmanager.enc'
 saltLen = 16
