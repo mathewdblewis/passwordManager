@@ -26,6 +26,7 @@ except: pass
 
 fileName = expanduser('~')+'/.passwordmanager.enc'
 saltLen = 16
+devmode = False
 
 
 # utilities
@@ -346,7 +347,6 @@ def editEntry(params):
 
 
 if __name__ == '__main__':
-	devmode = len(sys.argv) == 2 and sys.argv[1] == '-devmode'
 	state = ('load',)
 	try:
 		while True:
@@ -365,10 +365,4 @@ if __name__ == '__main__':
 		if devmode: raise e
 		else: print("SOFTWARE ERROR\nPlease notify the developer")
 		exit(1)
-
-
-
-
-
-
 
