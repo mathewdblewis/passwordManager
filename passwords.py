@@ -25,7 +25,6 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 try: import pyperclip
 except: pass
 
-
 fileName = expanduser('~')+'/.passwordmanager.enc'
 saltLen = 16
 # url of passwords.py script on github
