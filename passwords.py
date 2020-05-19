@@ -107,8 +107,7 @@ def load(empty):
 	Print("PASSWORD MANAGER")
 	
 	while True:
-		print("\nEnter your master password here.")
-		print("You can also press enter to exit")
+		print("\nEnter your master password here. You can also press enter to exit")
 		password = getpass("or d to delete the password file and create a new password manager: ")
 		if password == '': return ('exitState',)
 		elif password == 'd':
