@@ -382,7 +382,7 @@ def install():
 	path = ""
 	while True:
 		print('Give the full path of where you would like to put this program.')
-		print('You must provide an absolute path',end='')
+		print('You must provide an absolute path; ',end='')
 		if default!='': print('the path "' + default + '" is recommended.')
 		else: print(".")
 		if default!='': print('Press enter now to use the default or ')
