@@ -12,7 +12,7 @@ if version[0]!='3':
 
 # imports
 
-import json; from getpass import getpass
+import json; from getpass import getpass; import sys
 from os import system, remove, urandom
 from os.path import expanduser,realpath
 from random import randint as rand
