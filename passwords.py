@@ -91,11 +91,6 @@ def save(data,final=False):
 
 # states
 
-def exitState(empty):
-	pass
-	exit()
-
-
 def load(empty):
 	file,plainText,data = "","",{}
 	try:
@@ -357,8 +352,8 @@ if __name__ == '__main__':
 	state = ('load',)
 	try:
 		while True:
-			if    state[0] == 'load':                   state = load(state[1:])
-			elif  state[0] == 'exitState':              state = exitState(state[1:])
+			if    state[0] == 'exitState':              exit()
+			elif  state[0] == 'load':                   state = load(state[1:])
 			elif  state[0] == 'search':                 state = search(state[1:])
 			elif  state[0] == 'setup':                  state = setup(state[1:])
 			elif  state[0] == 'viewEntry':              state = viewEntry(state[1:])
