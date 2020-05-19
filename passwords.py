@@ -134,7 +134,7 @@ def load(empty):
 	try: data = json.loads(plainText)
 	except:
 		print('ERROR: the file has been corrupted')
-		exit(1)
+		return ('exitState',)
 	save(data)
 	return ('search',data)
 
@@ -142,7 +142,11 @@ def load(empty):
 def setup(empty):
 	Print('WELCOME TO PASSWORD MANAGER!')
 	while True:
-		password = getpass('To start, first enter your master password: ')
+		password = getpass('To start, first enter your master password or press enter to quit: ')
+		if password == "": return ('exitState',)
+		if len(password)<10:
+			print("your password must be at least 10 characters long.")
+			continue
 		if password == getpass('Reenter your master password: '): break
 		print("Your passwords don't match, try again")
 	data = {'password':password,'entries':{}}
@@ -187,7 +191,7 @@ def main(params):
 		elif x=='c': return ('changeMasterPassword',data)
 		elif x=='x':
 			save(data,final=True)
-			exit()
+			return ('exitState',)
 		elif x=='h': helpstr('main')
 		else:        print('Unknown option "' + x + '"')
 
@@ -196,8 +200,12 @@ def changeMasterPassword(params):
 	Print("CHANGE MASTER PASSWORD")
 	data = params[0]
 	while True:
-		print("Press Enter to return to the main page")
+		print("\nPress Enter to return to the main page")
 		password = getpass('Enter new password: ')
+		if password == "": return ('exitState',)
+		if len(password)<10:
+			print("your password must be at least 10 characters long.")
+			continue
 		if password == '': return ('main',data)
 		elif password!=getpass('Re-enter new password: '): print("passwords don't match, try again")
 		else:
