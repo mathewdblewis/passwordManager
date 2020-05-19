@@ -39,7 +39,7 @@ def helpstr(state):
 		print("o = open website")
 		print("e = edit entry")
 		print("d = delete entry")
-		print("press enter to return to search")
+		print("press enter to return to the main menu")
 
 	if state == 'main':
 		print("a = add entry")
@@ -95,7 +95,7 @@ def load(empty):
 	file,plainText,data = "","",{}
 	try:
 		file = open(fileName,'rb').read()
-		if file[0] == 'o'.encode('utf-8'):
+		if file[0] == ord('o'):	# if the file is open
 			Print("WARNING")
 			print("Your password manager either apears to already be open")
 			print("or you are recovering your previous session after improperly quiting")
@@ -278,7 +278,7 @@ def viewEntry(params):
 			if entry['website']!='': system('open ' + entry['website'])
 			else: print("no website for this entry, option unavailable")
 		elif x=='e': return ('editEntry',data,serviceName)
-		elif x=='':  return ('search',data)
+		elif x=='':  return ('main',data)
 		elif x=='h': helpstr('viewEntry')
 		elif x=='d': return ('deleteEntry',data,serviceName)
 		else:        print('Unknown option "' + x + '"')
