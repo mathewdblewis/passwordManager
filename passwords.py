@@ -1,9 +1,15 @@
 #!/usr/local/bin/python3
 
+
+# make sure we are using the right version
+
 from sys import version
 if version[0]!='3':
 	print("python 2 is deprecated, please use python 3")
 	exit()
+
+
+# imports
 
 import json; from getpass import getpass
 from os import system, remove, urandom
@@ -20,7 +26,6 @@ except: pass
 
 fileName = expanduser('~')+'/.passwordmanager.enc'
 saltLen = 16
-
 devmode = False
 
 
@@ -60,7 +65,6 @@ def copy(data):
 	except: pass
 	print("The copy to clipboard feature is unavailable")
 	print("you can print your password to console with")
-
 
 
 def randstr(l,s):
