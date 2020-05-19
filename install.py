@@ -2,18 +2,25 @@ from subprocess import check_output as call
 import urllib.request
 from os import system
 
+
+def Print(s,clear=True):
+	if clear: system('clear')
+	else: print("")
+	print('*'*len(s)+'****\n'+'* '+s+' *\n'+'*'*len(s)+'****\n')
+
 # url of passwords.py script on github
 url = 'https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/passwords.py'
 
 
 # get dependencies
+Print("INSTALLING DEPENDENCIES",clear=False)
 try: system("pip3 install cryptography")
 except:
 	print("could not install dependency 'cryptography'")
 	exit(1)
-
 try: system("pip3 install pyperclip")
 except: pass
+
 
 # get file
 file = ""
@@ -25,12 +32,22 @@ file = '#!'+call('which python3',shell=True).decode()+'\n'+'\n'.join(file.split(
 
 
 # get path
-default = call('echo $PATH',shell=True).decode().split(':')[0] + '/passwords'
+Print("INSTALLING PASSWORD MANAGER",clear=False)
+default,paths = "",call('echo $PATH',shell=True).decode().split(':')
+for path in paths:
+	try: open(path+'/passwords','w')
+	except: continue
+	default = path+'/passwords'
+	break
+
 path = ""
 while True:
-	print('\n\nGive the full path of where you would like to put this program.')
-	print('You must provide an absolute path, the path "' + default + '" is recommended.')
-	path = input('Press enter now to use the default or type out your prefered path here: ')
+	print('Give the full path of where you would like to put this program.')
+	print('You must provide an absolute path',end='')
+	if default!='': print('the path "' + default + '" is recommended.')
+	else: print(".")
+	if default!='': print('Press enter now to use the default or ')
+	path = input('type out your prefered path here: ')
 	if path == '': path = default
 	if path[0] != '/':
 		print("ERROR: you must provide an absolute path")
@@ -48,6 +65,7 @@ call('chmod 700 ' + path, shell=True)
 
 
 # prompt the user
-print("\npasswords has been installed!")
-print("To run it, enter 'passwords' below")
+Print("ALL DONE!",clear=False)
+print("passwords has been installed!")
+print("To run the CLI, enter '" + path.split('/')[-1] + "' below")
 

@@ -48,8 +48,9 @@ def helpstr(state):
 		print("press enter to search")
 
 
-def Print(s):
-	system('clear')
+def Print(s,clear=True):
+	if clear: system('clear')
+	else: print("")
 	print('*'*len(s)+'****\n'+'* '+s+' *\n'+'*'*len(s)+'****\n')
 
 
@@ -115,6 +116,7 @@ def load(empty):
 			if getpass("Enter y if yes: ")=='y':
 				remove(fileName)
 				return ('setup',)
+			else: continue
 		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=100000,backend=default_backend())
 		cipher = Fernet(base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))))
 		try:
