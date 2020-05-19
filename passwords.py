@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 
 
-
 # make sure we are using the right version
 
 from sys import version
