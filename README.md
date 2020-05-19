@@ -16,5 +16,6 @@ To install passwords, run the following:
     python3 install.py
     rm install.py
     
-
+This installation script will prompt you for a location in your path to store the passwords
+program. 
 
