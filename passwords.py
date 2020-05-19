@@ -116,14 +116,12 @@ def load(empty):
 		print("\nEnter your master password here.")
 		print("You can also press enter to exit")
 		password = getpass("or d to delete the password file and create a new password manager: ")
-		if password == '':
-			x = input("press enter again to exit, or press d to delete the password file: ")
-			if x=='': return ('exitState',)
-			if x=='d':
-				print("Are you sure you want to delete the password file? This cannot be undone: ")
-				if getpass("Enter y if yes: ")=='y':
-					remove(fileName)
-					return ('setup',)
+		if password == '': return ('exitState',)
+		elif password == 'd':
+			print("Are you sure you want to delete the password file? This cannot be undone.")
+			if getpass("Enter y if yes: ")=='y':
+				remove(fileName)
+				return ('setup',)
 		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=100000,backend=default_backend())
 		cipher = Fernet(base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))))
 		try:
