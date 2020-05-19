@@ -53,9 +53,11 @@ def copy(data):
 	try:
 		run("pbcopy", universal_newlines=True, input=data)
 		return
+	except: pass
 	try:
 		pyperclip.copy(data)
 		return
+	except: pass
 	print("The copy to clipboard feature is unavailable")
 	print("you can print your password to console with")
 
