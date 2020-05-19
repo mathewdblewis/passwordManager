@@ -16,6 +16,6 @@ To install passwords, paste the following in your console:
     python3 passwords.py -install
     rm passwords.py
     
-During installation you will be prompted for a location in your path to store
-the passwords program. 
+During installation you will be prompted for a location to store the passwords program
+however you may be given the option to choose a location selected by the installer.
 
