@@ -10,12 +10,12 @@ in the users home directory in the hidden file `.passwordmanager.enc`.
 
 Installation
 --------------------
-To install passwords, run the following:
+To install passwords, paste the following in your console:
 
     curl https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/install.py > install.py
     python3 install.py
     rm install.py
     
-This installation script will prompt you for a location in your path to store the passwords
-program. 
+This installation script will prompt you for a location in your path to store
+the passwords program. 
 

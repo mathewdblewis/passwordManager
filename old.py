@@ -20,8 +20,6 @@ try: import pyperclip
 fileName = expanduser('~')+'/.passwordmanager.enc'
 saltLen = 16
 
-devmode = False
-
 
 # utilities
 
@@ -104,24 +102,23 @@ def load(empty):
 		salt,file = file[1:saltLen+1],file[saltLen+1:]
 	except: return ('setup',)	# create new password manager
 	Print("PASSWORD MANAGER")
-	
 	while True:
-		print("\nEnter your master password here.")
-		password = getpass("You can also press enter to exit or d to delete the password file and create a new password manager")
-		if password == '':
-			x = input("press enter again to exit, or press d to delete the password file.")
-			if x=='d':
-				print("Are you sure you want to delete the password file? This cannot be undone.")
-				if getpass("Enter y if yes: ")=='y':
-					remove(fileName)
-					return ('setup',)
+		password = getpass("\nEnter your master password here: ")
 		kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=salt,iterations=100000,backend=default_backend())
 		cipher = Fernet(base64.urlsafe_b64encode(kdf.derive(password.encode('utf-8'))))
 		try:
 			plainText = cipher.decrypt(file)
 			break
-		except: print('\nWrong password')
-
+		except:
+			print('\nWrong password, enter "x" to exit,')
+			print('"d" to delete the password file and create new password manager,')
+			x = input('or anything else to try again: ')
+			if x == 'x': exit()
+			elif x == 'd':
+				print("Are you sure you want to delete the password file? This cannot be undone.")
+				if getpass("Enter y if yes: ")=='y':
+					remove(fileName)
+					return ('setup',)
 	try: data = json.loads(plainText)
 	except:
 		print('ERROR: the file has been corrupted')
@@ -354,7 +351,9 @@ if __name__ == '__main__':
 			elif  state[0] == 'changeMasterPassword':   state = changeMasterPassword(state[1:])
 			else: raise Exception('unknown state: "' +  state[0] + '"')
 	except Exception as e:
-		if devmode: raise e
-		else: print("SOFTWARE ERROR\nPlease notify the developer")
+		# print("SOFTWARE ERROR\nPlease notify the developer")
+		raise e
 		exit(1)
+
+
 

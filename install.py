@@ -12,6 +12,7 @@ except:
 	print("could not install dependency 'cryptography'")
 	exit(1)
 
+try: system("pip3 install pyperclip")
 
 # get file
 file = ""
@@ -48,3 +49,4 @@ call('chmod 700 ' + path, shell=True)
 # prompt the user
 print("\npasswords has been installed!")
 print("To run it, enter 'passwords' below")
+
