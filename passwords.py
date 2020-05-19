@@ -117,6 +117,7 @@ def load(empty):
 		password = getpass("or d to delete the password file and create a new password manager: ")
 		if password == '':
 			x = input("press enter again to exit, or press d to delete the password file: ")
+			if x=='': exit()
 			if x=='d':
 				print("Are you sure you want to delete the password file? This cannot be undone: ")
 				if getpass("Enter y if yes: ")=='y':
