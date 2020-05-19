@@ -1,5 +1,6 @@
 from subprocess import check_output as call
-import urllib.request; from os import system
+import urllib.request
+from os import system
 
 # url of passwords.py script on github
 url = 'https://raw.githubusercontent.com/mathewdblewis/passwordManager/master/passwords.py'
