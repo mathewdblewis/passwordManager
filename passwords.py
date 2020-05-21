@@ -10,16 +10,16 @@ if version[0]!='3':
 
 
 # imports
-
-from subprocess import check_output as call
-import urllib.request; from os import system
-import json; from getpass import getpass; import sys
-from os import system, remove, urandom
+from subprocess import run, check_output as call
+from urllib.request import urlopen
+import json; import base64; from sys import argv
+from getpass import getpass
+from os import system,remove,urandom
 from os.path import expanduser,realpath
 from random import randint as rand
-from subprocess import run; import base64
 
-if len(sys.argv)==2 and sys.argv[1]=='-install': pass
+
+if len(argv)==2 and argv[1]=='-install': pass
 else:
 	from cryptography.fernet import Fernet
 	from cryptography.hazmat.backends import default_backend
@@ -366,7 +366,7 @@ def install():
 
 	# get file
 	file = ""
-	try: file = urllib.request.urlopen(url).read().decode()
+	try: file = urlopen(url).read().decode()
 	except:
 		print("the source code could not be found")
 		exit(1)
@@ -413,8 +413,8 @@ def install():
 
 
 if __name__ == '__main__':
-	devmode = len(sys.argv) == 2 and sys.argv[1] == '-devmode'
-	if len(sys.argv) == 2 and sys.argv[1] == '-install': install()
+	devmode = len(argv) == 2 and argv[1] == '-devmode'
+	if len(argv) == 2 and argv[1] == '-install': install()
 	state = ('load',)
 	try:
 		while True:
